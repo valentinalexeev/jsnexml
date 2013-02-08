@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script language="JavaScript" src="jsnexml.js"></script>
+
+        <script language="JavaScript">
+            function writeLog(str) {
+                try {
+                    console.info(str);
+                } catch (e) {}
+                try {
+                    omc.logger.addEntry(str);
+                } catch (e) {}
+            }
+
+            var DOC_SIZE = 10000;
+
+            function doTest() {
+                var parser = new NEXMLParser();
+                var inXml = '<item><title>Syllable Boots from USB CD-ROM</title><link>http://osnews.com/story/20156/Syllable_Boots_from_USB_CD-ROM</link><guid isPermaLink="true">http://osnews.com/story/20156/Syllable_Boots_from_USB_CD-ROM</guid><description>Kristian Van Der Vliet tracked down and fixed the bug that prevented Syllable from booting off a USB device. The project published a new development build that will boot from a USB CD player. This means Syllable can now be installed in a regular way on machines that don\'t have an IDE CD player, such as the Asus Eee PC and other small laptops. Installing to a USB device, such as a memory stick, is not possible yet, due to further USB bugs that lock up the installation process. These are being investigated.The new development build also has the new Webster browser included.</description><pubDate>Wed, 06 Aug 2008 05:57:05 GMT</pubDate><author> donotreply@osnews.com (Thom Holwerda)</author><category>Syllable, AtheOS</category></item>';
+                var toProcess = [];
+                for (var i = 0; i < DOC_SIZE; i++) {
+                    toProcess.push(inXml);
+                }
+                inXml = toProcess.join("");
+                writeLog("Data length: " + inXml.length);
+                var start = new Date();
+                var doc = parser._buildTokenTable(inXml);
+                var end = new Date();
+                writeLog("Elapsed (NEXML): " + (end.getTime() - start.getTime()));
+                writeLog("Total tokens: " + doc.length);
+            }
+        </script>
+    </head>
+    <body>
+        <form id="parse">
+        <input type="button" onclick="doTest();" value="doTest"/>
+        </form>
+    </body>
+</html>
